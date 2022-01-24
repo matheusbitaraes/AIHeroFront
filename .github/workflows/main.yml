@@ -45,5 +45,5 @@ jobs:
         server: ftp.bitaraes.com.br
         username: u827606196.github
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./build/
+        local-dir: actions/build/
         server-dir: ai_hero/
