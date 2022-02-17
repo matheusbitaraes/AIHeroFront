@@ -1,72 +1,172 @@
 .hero {
-
-	.section-inner {
-		padding-top: $hero--padding-t__mobile;
-		padding-bottom: $hero--padding-b__mobile;
-	}
+  .section-inner {
+    padding-top: $hero--padding-t__mobile;
+    padding-bottom: $hero--padding-b__mobile;
+  }
 }
 
 .hero-inner {
+  // Affects only hero full
+  > .hero-content + .hero-figure,
+  > .hero-figure + .hero-content {
+    margin-top: $hero--inner-padding-v_mobile;
+  }
 
-	// Affects only hero full
-	> .hero-content + .hero-figure,
-	> .hero-figure + .hero-content {
-		margin-top: $hero--inner-padding-v_mobile;
-	}
-
-	> .hero-figure {
-
-		> a {
-			display: inline-flex;
-			// prevents stretching
-			align-items: center;
-			vertical-align: top;
-		}
-	}
+  > .hero-figure {
+    > a {
+      display: inline-flex;
+      // prevents stretching
+      align-items: center;
+      vertical-align: top;
+    }
+  }
 }
 
-@include media( '<=medium' ) {
+@include media("<=medium") {
+  .hero {
+    .split-wrap {
+      .split-item {
+        .split-item-content {
+          margin-bottom: $hero--inner-padding-v_mobile;
+        }
+      }
 
-	.hero {
-
-		.split-wrap {
-
-			.split-item {
-
-				.split-item-content {
-					margin-bottom: $hero--inner-padding-v_mobile;
-				}
-			}
-
-			&.invert-mobile {
-
-				.split-item {
-
-					.split-item-image {
-						margin-bottom: $hero--inner-padding-v_mobile;
-					}
-				}
-			}
-		}
-	}
+      &.invert-mobile {
+        .split-item {
+          .split-item-image {
+            margin-bottom: $hero--inner-padding-v_mobile;
+          }
+        }
+      }
+    }
+  }
 }
 
-@include media( '>medium' ) {
+@include media(">medium") {
+  .hero {
+    .section-inner {
+      padding-top: $hero--padding-t__desktop;
+      padding-bottom: $hero--padding-b__desktop;
+    }
+  }
 
-	.hero {
+  .hero-inner {
+    // Affects only hero full
+    > .hero-content + .hero-figure,
+    > .hero-figure + .hero-content {
+      margin-top: $hero--inner-padding-v_desktop;
+    }
 
-		.section-inner {
-			padding-top: $hero--padding-t__desktop;
-			padding-bottom: $hero--padding-b__desktop;
-		}
+    .melody-input {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 30px;
+      .evolutionary-specs {
+        width: 50%;
+        .evo-spec {
+          > p {
+            font-size: 16px;
+            align-self: baseline;
+          }
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 10% 0 10%;
+          height: 10%;
+        }
+        > h4 {
+          text-align: center;
+        }
+        text-align: left;
+        font-size: 18px;
+      }
+
+      .melody-specs {
+        width: 50%;
+        height: 300px;
+        overflow-y: scroll;
+        .melody-spec-box {
+          display: flex;
+          font-size: 16px;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          padding-right: 1em;
+          margin-bottom: -40px;
+        }
+      }
+
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 2.2em;
+        height: 1.1em;
+        margin-right: 0.5em;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 0.9em;
+        width: 0.9em;
+        left: 0.1em;
+        bottom: 0.1em;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(1.1em);
+        -ms-transform: translateX(1.1em);
+        transform: translateX(1.1em);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 1em;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+    }
+
+	.midi-player {
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
-
-	.hero-inner {
-
-		// Affects only hero full
-		> .hero-content + .hero-figure,
-		> .hero-figure + .hero-content {
-			margin-top: $hero--inner-padding-v_desktop;
-		}
-	}
+  }
 }

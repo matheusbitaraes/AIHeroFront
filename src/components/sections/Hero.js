@@ -68,7 +68,7 @@ const Hero = ({
                 </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
-                  <Button tag="a" color="primary" wideMobile href="/" disabled={true}>
+                  <Button tag="a" color="primary" wideMobile href="/demo" disabled={false}>
                     Live Demo
                     </Button>
                   <Button tag="a" color="dark" wideMobile href="https://github.com/matheusbitaraes/AIHero">

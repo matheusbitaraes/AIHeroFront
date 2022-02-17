@@ -5,10 +5,12 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
+    "midi-sounds-react": "^1.2.45",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-ga": "^2.7.0",
+    "react-midi-player": "^1.0.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1"
   },
