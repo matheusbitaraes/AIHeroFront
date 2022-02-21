@@ -1,6 +1,4 @@
 import React from 'react';
-// import sections
-import Hero from '../components/sections/Hero';
 import MelodyGenerator from '../components/sections/MelodyGenerator';
 
 

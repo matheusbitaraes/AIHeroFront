@@ -56,117 +56,186 @@
     > .hero-figure + .hero-content {
       margin-top: $hero--inner-padding-v_desktop;
     }
+  }
+}
 
-    .melody-input {
-      display: flex;
-      flex-direction: row;
-      margin-bottom: 30px;
-      .evolutionary-specs {
-        width: 50%;
-        .evo-spec {
-          > p {
-            font-size: 16px;
-            align-self: baseline;
-          }
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 10% 0 10%;
-          height: 10%;
-        }
-        > h4 {
-          text-align: center;
-        }
-        text-align: left;
-        font-size: 18px;
+.melody-input {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+  justify-content: space-between;
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    .fitness-function-box {
+      @include media("<=medium") {
+        display: none;
       }
-
-      .melody-specs {
-        width: 50%;
-        height: 300px;
-        overflow-y: scroll;
-        .melody-spec-box {
-          display: flex;
-          font-size: 16px;
-          flex-direction: row;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: space-between;
-          padding-right: 1em;
-          margin-bottom: -40px;
-        }
-      }
-
-      /* The switch - the box around the slider */
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 2.2em;
-        height: 1.1em;
-        margin-right: 0.5em;
-      }
-
-      /* Hide default HTML checkbox */
-      .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      /* The slider */
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-      }
-
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 0.9em;
-        width: 0.9em;
-        left: 0.1em;
-        bottom: 0.1em;
-        background-color: white;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-      }
-
-      input:checked + .slider {
-        background-color: #2196f3;
-      }
-
-      input:focus + .slider {
-        box-shadow: 0 0 1px #2196f3;
-      }
-
-      input:checked + .slider:before {
-        -webkit-transform: translateX(1.1em);
-        -ms-transform: translateX(1.1em);
-        transform: translateX(1.1em);
-      }
-
-      /* Rounded sliders */
-      .slider.round {
-        border-radius: 1em;
-      }
-
-      .slider.round:before {
-        border-radius: 50%;
+      margin-top: 5%;
+      > h6 {
+        font-size: 14px;
       }
     }
-
-	.midi-player {
-
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
   }
+
+  .evolutionary-specs {
+    height: 500px;
+    overflow: hidden;
+    @include media("<=medium") {
+      width: 100%;
+    }
+    width: 50%;
+    .evolutionary-box {
+      height: 60%;
+      width: 100%;
+      // margin-left: 10%;
+      .spec-box {
+        display: flex;
+      }
+    }
+    #widget {
+      margin: auto;
+      text-align: center;
+      #markerbounds {
+        margin: auto;
+        position: relative;
+        border: 3px solid #2196f3;
+        border-width: 0 0 3px 3px;
+        height: 220px;
+        width: 220px;
+        margin: auto;
+        background: url(../../../images/chaos_variety.png);
+        background-size: contain;
+      }
+
+      #box {
+        margin: auto;
+        background-color: lightsteelblue;
+        position: absolute;
+      }
+
+      #marker {
+        position: relative;
+        height: 15px;
+        width: 15px;
+        background-color: #2196f3;
+        border-radius: 15px;
+      }
+
+      #coord {
+        font-family: serif;
+        font-size: 14px;
+        margin: 0px;
+      }
+    }
+    .evo-spec {
+      > p {
+        font-size: 14px;
+        align-self: baseline;
+      }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10% 0 10%;
+      height: 10%;
+    }
+    > h4 {
+      text-align: center;
+    }
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .melody-specs {
+    width: 45%;
+    height: 500px;
+    @include media("<=medium") {
+      width: 0;
+      display: none;
+    }
+    .melody-specs-list {
+      overflow-y: scroll;
+    }
+    .melody-spec-box {
+      display: flex;
+      font-size: 16px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 1em;
+      margin-bottom: -40px;
+    }
+  }
+
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 2.2em;
+    height: 1.1em;
+    margin-right: 0.5em;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 0.9em;
+    width: 0.9em;
+    left: 0.1em;
+    bottom: 0.1em;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(1.1em);
+    -ms-transform: translateX(1.1em);
+    transform: translateX(1.1em);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 1em;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}
+
+.midi-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

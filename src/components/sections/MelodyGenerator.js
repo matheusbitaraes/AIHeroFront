@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { SectionProps } from "../../utils/SectionProps";
-import ButtonGroup from "../elements/ButtonGroup";
 import Button from "../elements/Button";
 import Image from "../elements/Image";
 import logo from "../../assets/images/load.gif";
@@ -103,6 +102,8 @@ const MelodyGenerator = ({
 
   const [midiData, setMidiData] = useState(null);
   const [evoToggle, toggleEvolutionary] = useState(true);
+  const [noteVariety, setNoteVariety] = useState(0);
+  const [chaosValue, setChaosValue] = useState(0);
 
   const [isMelodyLoaded, setMelodyLoaded] = useState(false);
 
@@ -111,37 +112,49 @@ const MelodyGenerator = ({
       key: "notes_on_same_chord_key",
       name: "Notes on Same Chord",
       description: "notes_on_same_chord_key",
+      transf_weights: [-0.4, -0.6],
+      bounds: [0, 10],
       value: 0,
     },
     {
       key: "notes_on_beat_rate",
       name: "Notes on Beat",
       description: "notes_on_beat_rate",
+      transf_weights: [-0.5, -0.5],
+      bounds: [0, 10],
       value: 0,
     },
     {
       key: "note_on_density",
       name: "Note Density",
       description: "note_on_density",
+      transf_weights: [0.1, 0.5],
+      bounds: [-10, 10],
       value: 0,
     },
     {
       key: "note_variety_rate",
       name: "Note Variety",
       description: "note_variety_rate",
+      transf_weights: [1, 0],
+      bounds: [-10, 10],
       value: 0,
     },
     {
       key: "single_notes_rate",
       name: "Single Notes Rate",
       description: "single_notes_rate",
+      transf_weights: [-0.1, -0.5],
+      bounds: [-10, 10],
       value: 0,
     },
     {
       key: "notes_out_of_scale_rate",
       name: "Notes out of Scale",
       description: "notes_out_of_scale_rate",
-      value: -1,
+      transf_weights: [0.5, 1],
+      bounds: [-10, 10],
+      value: 0,
     },
   ]);
   const [melodyId, setMelodyId] = useState(null);
@@ -168,11 +181,29 @@ const MelodyGenerator = ({
     }
   });
 
-  function handleEvolutionarySpecs(key, value) {
-    let specs = evolutionarySpecs;
-    specs.filter((s) => s.key == key)[0].value = value;
-    setEvolutionarySpecs([...specs]);
+  function updateEvolutionaryFunctions(variety, chaos) {
+    evolutionarySpecs.map((spec) => {
+      let specs = evolutionarySpecs;
+      let w1 = specs.filter((s) => s.key === spec.key)[0].transf_weights[0];
+      let w2 = specs.filter((s) => s.key === spec.key)[0].transf_weights[1];
+      let min = spec.bounds[0];
+      let max = spec.bounds[1];
+      let value = variety * w1 + chaos * w2;
+      specs.filter((s) => s.key === spec.key)[0].value = Math.max(
+        min,
+        Math.min(max, value)
+      );
+
+      setEvolutionarySpecs([...specs]);
+      return null
+    });
   }
+
+  // function handleEvolutionarySpecs(key, value) {
+  //   let specs = evolutionarySpecs;
+  //   specs.filter((s) => s.key === key)[0].value = value;
+  //   setEvolutionarySpecs([...specs]);
+  // }
 
   function handleMelodySpecChange(fieldName, idx, value) {
     let specs = harmonySpecs;
@@ -184,11 +215,9 @@ const MelodyGenerator = ({
 
   function renderEvolutionarySpec(spec) {
     return (
-      <div className="evo-spec">
-        <p>
-          {spec.name} [{spec.value}] :{" "}
-        </p>
-        <input
+      <div className="evo-fitness-functions">
+        <h7>{`${spec.name}: ${spec.value.toFixed(1)}`}</h7>
+        {/* <input
           disabled={!evoToggle}
           className="evo-spec-range"
           type="range"
@@ -199,7 +228,75 @@ const MelodyGenerator = ({
           }}
           min={-10}
           max={10}
-        ></input>
+        ></input> */}
+      </div>
+    );
+  }
+
+  function renderEvolutionaryBox() {
+    const box_width = 220;
+    const marker_radius = 15;
+    const scale = 10;
+    const box_height = box_width;
+    const left = box_width / 2 - marker_radius / 2 + scale * noteVariety;
+    const top = box_height / 2 - marker_radius / 2 - scale * chaosValue;
+    return (
+      <div className="evolutionary-box">
+        <div className="evo-spec">
+          <p>{"Note Variety"}:</p>
+          <input
+            disabled={!evoToggle}
+            className="variety-range"
+            type="range"
+            value={noteVariety}
+            onChange={(e) => {
+              setNoteVariety(e.target.value);
+              updateEvolutionaryFunctions(noteVariety, chaosValue);
+            }}
+            min={-10}
+            max={10}
+          ></input>
+        </div>
+        <div className="evo-spec">
+          <p>{"Chaos"}:</p>
+          <input
+            disabled={!evoToggle}
+            className="variety-range"
+            type="range"
+            value={chaosValue}
+            onChange={(e) => {
+              setChaosValue(e.target.value);
+              updateEvolutionaryFunctions(noteVariety, chaosValue);
+            }}
+            min={-10}
+            max={10}
+          ></input>
+        </div>
+        <div className="spec-box">
+          {renderFitnessFunctionSpecs()}
+          <div id="widget">
+            <div id="markerbounds">
+              <div id="box">
+                <div
+                  id="marker"
+                  style={{ left, top, position: "absolute" }}
+                ></div>
+              </div>
+            </div>
+            <div>
+              <p id="coord"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function renderFitnessFunctionSpecs() {
+    return (
+      <div className="fitness-function-box">
+        {/* <h6>Fitness Function Values</h6> */}
+        {evolutionarySpecs.map((spec) => renderEvolutionarySpec(spec))}
       </div>
     );
   }
@@ -352,7 +449,7 @@ const MelodyGenerator = ({
 
     const url = `http://localhost:8083/melody/${melodyId}`;
 
-    var x = await wait(5000);
+    await wait(5000);
 
     fetch(url, requestOptions)
       .then((response) => {
@@ -367,8 +464,10 @@ const MelodyGenerator = ({
         setMidiData(data);
       })
       .catch((err) => {
-        setCounter(counter + 1)
-        console.log(`still waiting melody. tried ${counter} times for melody ${melodyId}`);
+        setCounter(counter + 1);
+        console.log(
+          `still waiting melody. tried ${counter} times for melody ${melodyId}`
+        );
       });
   }
 
@@ -398,7 +497,7 @@ const MelodyGenerator = ({
                   </label>
                   Genetic Algorithm Specs
                 </h4>
-                {evolutionarySpecs.map((spec) => renderEvolutionarySpec(spec))}
+                <div className="inputs">{renderEvolutionaryBox()}</div>
               </div>
               <div className="melody-specs reveal-from-right">
                 <h4>Melody Specs</h4>
