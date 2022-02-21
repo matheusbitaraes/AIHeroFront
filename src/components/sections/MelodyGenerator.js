@@ -129,7 +129,7 @@ const MelodyGenerator = ({
       name: "Note Density",
       description: "note_on_density",
       transf_weights: [0.1, 0.5],
-      bounds: [-10, 10],
+      bounds: [0, 10],
       value: 0,
     },
     {
@@ -378,7 +378,7 @@ const MelodyGenerator = ({
           color="dark"
           wideMobile
           href={objectURL}
-          download="blabla.mid"
+          download="a-robot-did-this.mid"
         >
           Download
         </Button>
