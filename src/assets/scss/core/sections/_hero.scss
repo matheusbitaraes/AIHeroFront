@@ -62,7 +62,7 @@
 .melody-input {
   display: flex;
   flex-direction: row;
-  margin-bottom: 30px;
+  margin-bottom: 80px;
   justify-content: space-between;
 
   .inputs {
@@ -140,8 +140,21 @@
       padding: 0 10% 0 10%;
       height: 10%;
     }
+    .radio-inputs {
+      display: flex;
+      flex-direction: column;
+      align-content: flex-end;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-left: 25%;
+      .radio-input {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
     > h4 {
       text-align: center;
+      margin-bottom: 6px;
     }
     text-align: left;
     font-size: 14px;
@@ -163,9 +176,11 @@
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      padding-right: 1em;
-      margin-bottom: -40px;
+      justify-content: space-around;
+      >h6 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
     }
   }
 

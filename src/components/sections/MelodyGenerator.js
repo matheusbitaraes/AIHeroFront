@@ -27,81 +27,81 @@ const MelodyGenerator = ({
 }) => {
   const [harmonySpecs, setHarmonySpecs] = useState([
     {
-      melodic_part: "RELAXATION",
-      chord: "C",
+      melodic_part: "",
+      chord: "C:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "TENSION",
-      chord: "F",
+      melodic_part: "",
+      chord: "F:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RELAXATION",
-      chord: "C",
+      melodic_part: "",
+      chord: "C:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RELAXATION",
-      chord: "C",
+      melodic_part: "",
+      chord: "C:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RELAXATION",
-      chord: "F",
+      melodic_part: "",
+      chord: "F:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "TENSION",
-      chord: "F",
+      melodic_part: "",
+      chord: "F:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RELAXATION",
-      chord: "C",
+      melodic_part: "",
+      chord: "C:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RELAXATION",
-      chord: "C",
+      melodic_part: "",
+      chord: "C:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "TENSION",
-      chord: "G",
+      melodic_part: "",
+      chord: "G:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "TENSION",
-      chord: "F",
+      melodic_part: "",
+      chord: "F:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RELAXATION",
-      chord: "C",
+      melodic_part: "",
+      chord: "C:7maj",
       key: "C",
       tempo: 120,
     },
     {
-      melodic_part: "RETAKE",
-      chord: "G",
+      melodic_part: "",
+      chord: "G:7maj",
       key: "C",
       tempo: 120,
     },
   ]);
 
   const [midiData, setMidiData] = useState(null);
-  const [evoToggle, toggleEvolutionary] = useState(true);
+  const [melodyFrom, setMelodyFrom] = useState("gan")
   const [noteVariety, setNoteVariety] = useState(0);
   const [chaosValue, setChaosValue] = useState(0);
 
@@ -112,49 +112,49 @@ const MelodyGenerator = ({
       key: "notes_on_same_chord_key",
       name: "Notes on Same Chord",
       description: "notes_on_same_chord_key",
-      transf_weights: [-0.4, -0.6],
-      bounds: [0, 10],
-      value: 0,
+      transf_weights: [0, -0.2],
+      bounds: [0, 1],
+      weight: 0,
     },
     {
       key: "notes_on_beat_rate",
       name: "Notes on Beat",
       description: "notes_on_beat_rate",
-      transf_weights: [-0.5, -0.5],
-      bounds: [0, 10],
-      value: 0,
+      transf_weights: [0, -0.1],
+      bounds: [0, 1],
+      weight: 0,
     },
     {
       key: "note_on_density",
       name: "Note Density",
       description: "note_on_density",
       transf_weights: [0.1, 0.5],
-      bounds: [0, 10],
-      value: 0,
+      bounds: [0, 1],
+      weight: 1,
     },
     {
       key: "note_variety_rate",
       name: "Note Variety",
       description: "note_variety_rate",
-      transf_weights: [1, 0],
-      bounds: [-10, 10],
-      value: 0,
+      transf_weights: [0.2, 0],
+      bounds: [-1, 1],
+      weight: 0,
     },
     {
       key: "single_notes_rate",
       name: "Single Notes Rate",
       description: "single_notes_rate",
-      transf_weights: [-0.1, -0.5],
-      bounds: [-10, 10],
-      value: 0,
+      transf_weights: [0, -0.5],
+      bounds: [-1, 1],
+      weight: 1,
     },
     {
       key: "notes_out_of_scale_rate",
       name: "Notes out of Scale",
       description: "notes_out_of_scale_rate",
-      transf_weights: [0.5, 1],
-      bounds: [-10, 10],
-      value: 0,
+      transf_weights: [0, 0.1],
+      bounds: [-1, 1],
+      weight: 0,
     },
   ]);
   const [melodyId, setMelodyId] = useState(null);
@@ -188,14 +188,14 @@ const MelodyGenerator = ({
       let w2 = specs.filter((s) => s.key === spec.key)[0].transf_weights[1];
       let min = spec.bounds[0];
       let max = spec.bounds[1];
-      let value = variety * w1 + chaos * w2;
-      specs.filter((s) => s.key === spec.key)[0].value = Math.max(
+      let weight = variety * w1 + chaos * w2;
+      specs.filter((s) => s.key === spec.key)[0].weight = Math.max(
         min,
-        Math.min(max, value)
+        Math.min(max, weight)
       );
 
       setEvolutionarySpecs([...specs]);
-      return null
+      return null;
     });
   }
 
@@ -216,7 +216,7 @@ const MelodyGenerator = ({
   function renderEvolutionarySpec(spec) {
     return (
       <div className="evo-fitness-functions">
-        <h7>{`${spec.name}: ${spec.value.toFixed(1)}`}</h7>
+        <h7>{`${spec.name}: ${spec.weight.toFixed(1)}`}</h7>
         {/* <input
           disabled={!evoToggle}
           className="evo-spec-range"
@@ -238,14 +238,14 @@ const MelodyGenerator = ({
     const marker_radius = 15;
     const scale = 10;
     const box_height = box_width;
-    const left = box_width / 2 - marker_radius / 2 + scale * noteVariety;
-    const top = box_height / 2 - marker_radius / 2 - scale * chaosValue;
+    const left = box_width / 2 - marker_radius / 2 + scale * chaosValue;
+    const top = box_height / 2 - marker_radius / 2 - scale * noteVariety;
     return (
       <div className="evolutionary-box">
         <div className="evo-spec">
           <p>{"Note Variety"}:</p>
           <input
-            disabled={!evoToggle}
+            disabled={melodyFrom !== "evo"}
             className="variety-range"
             type="range"
             value={noteVariety}
@@ -260,7 +260,7 @@ const MelodyGenerator = ({
         <div className="evo-spec">
           <p>{"Chaos"}:</p>
           <input
-            disabled={!evoToggle}
+            disabled={melodyFrom !== "evo"}
             className="variety-range"
             type="range"
             value={chaosValue}
@@ -304,27 +304,11 @@ const MelodyGenerator = ({
   function renderMelodySpec(spec, i) {
     return (
       <div className="melody-spec-box">
-        <h6>Bar {i}</h6>
-        <div className="evo-spec-melodic_part">
-          Sensation: {"  "}
-          <select
-            className="evo-spec-selector"
-            type="text"
-            name="Melodic Part"
-            value={spec.melodic_part}
-            onChange={(e) => {
-              handleMelodySpecChange("melodic_part", i, e.target.value);
-            }}
-          >
-            <option name="RELAXATION"> RELAXATION</option>
-            <option name="TENSION"> TENSION</option>
-            <option name="RETAKE"> RETAKE</option>
-          </select>
-        </div>
+        <h6>Bar {i+1}</h6>
         <div className="evo-spec-chord">
           Chord: {"  "}
           <select
-            disabled={true}
+            disabled={false}
             className="evo-spec-chord-selector"
             type="text"
             name="Chord"
@@ -333,30 +317,54 @@ const MelodyGenerator = ({
               handleMelodySpecChange("chord", i, e.target.value);
             }}
           >
-            <option name="C"> C</option>
-            <option name="C#"> C#</option>
-            <option name="C"> Cm</option>
-            <option name="C#"> C#m</option>
-            <option name="D"> D</option>
-            <option name="D"> D#</option>
-            <option name="D"> Dm</option>
-            <option name="D"> D#m</option>
-            <option name="E"> E</option>
-            <option name="E"> Em</option>
-            <option name="F"> F</option>
-            <option name="F"> Fm</option>
-            <option name="F"> F#</option>
-            <option name="F"> F#m</option>
-            <option name="G"> G</option>
-            <option name="G"> G#</option>
-            <option name="G"> Gm</option>
-            <option name="G"> G#m</option>
-            <option name="A"> A</option>
-            <option name="A"> A#</option>
-            <option name="A"> Am</option>
-            <option name="A"> A#m</option>
-            <option name="B"> B</option>
-            <option name="B"> Bm</option>
+            <option name={"A#:7maj"}> A#:7maj </option>
+            <option name={"A:7maj"}> A:7maj </option>
+            <option name={"A#:7min"}> A#:7min </option>
+            <option name={"A:7min"}> A:7min </option>
+            <option name={"A#:maj"}> A#:maj </option>
+            <option name={"A:maj"}> A:maj </option>
+            <option name={"A#:min"}> A#:min </option>
+            <option name={"A:min"}> A:min </option>
+            <option name={"B:7maj"}> B:7maj </option>
+            <option name={"B:7min"}> B:7min </option>
+            <option name={"B:maj"}> B:maj </option>
+            <option name={"B:min"}> B:min </option>
+            <option name={"C#:7maj"}> C#:7maj </option>
+            <option name={"C:7maj"}> C:7maj </option>
+            <option name={"C#:7min"}> C#:7min </option>
+            <option name={"C:7min"}> C:7min </option>
+            <option name={"C#:maj"}> C#:maj </option>
+            <option name={"C:maj"}> C:maj </option>
+            <option name={"C#:min"}> C#:min </option>
+            <option name={"C:min"}> C:min </option>
+            <option name={"D#:7maj"}> D#:7maj </option>
+            <option name={"D:7maj"}> D:7maj </option>
+            <option name={"D#:7min"}> D#:7min </option>
+            <option name={"D:7min"}> D:7min </option>
+            <option name={"D#:maj"}> D#:maj </option>
+            <option name={"D:maj"}> D:maj </option>
+            <option name={"D#:min"}> D#:min </option>
+            <option name={"D:min"}> D:min </option>
+            <option name={"E:7maj"}> E:7maj </option>
+            <option name={"E:7min"}> E:7min </option>
+            <option name={"E:maj"}> E:maj </option>
+            <option name={"E:min"}> E:min </option>
+            <option name={"F#:7maj"}> F#:7maj </option>
+            <option name={"F:7maj"}> F:7maj </option>
+            <option name={"F#:7min"}> F#:7min </option>
+            <option name={"F:7min"}> F:7min </option>
+            <option name={"F#:maj"}> F#:maj </option>
+            <option name={"F:maj"}> F:maj </option>
+            <option name={"F#:min"}> F#:min </option>
+            <option name={"F:min"}> F:min </option>
+            <option name={"G#:7maj"}> G#:7maj </option>
+            <option name={"G:7maj"}> G:7maj </option>
+            <option name={"G#:7min"}> G#:7min </option>
+            <option name={"G:7min"}> G:7min </option>
+            <option name={"G#:maj"}> G#:maj </option>
+            <option name={"G:maj"}> G:maj </option>
+            <option name={"G#:min"}> G#:min </option>
+            <option name={"G:min"}> G:min </option>
           </select>
         </div>
       </div>
@@ -415,8 +423,7 @@ const MelodyGenerator = ({
       }),
     };
 
-    const source = evoToggle ? "evo" : "gan";
-    fetch(`http://localhost:8083/melody?source=${source}`, requestOptions)
+    fetch(`http://localhost:8083/melody?source=${melodyFrom}`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -484,6 +491,25 @@ const MelodyGenerator = ({
             </h1>
             <div className="melody-input">
               <div className="evolutionary-specs reveal-from-left">
+                <h4>Get Melodies From</h4>
+                <div className="radio-inputs" onChange={(event) => setMelodyFrom(event.target.value)}>
+                  <h6 className="radio-input" ><input type="radio" value="train" name="melody-from" checked={melodyFrom === "train"}/> Real Data</h6>
+                  <h6 className="radio-input" ><input type="radio" value="gan" name="melody-from" checked={melodyFrom === "gan"}/> Gan Generated</h6>
+                  <h6 className="radio-input" ><input type="radio" value="evo" name="melody-from" checked={melodyFrom === "evo"}/> Gan + Evo Generated</h6>
+                </div>
+                {/* <h4>
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      alt="Enable evolutionary optimization"
+                      id="test-data-toggle"
+                      checked={testDataToggle}
+                      onChange={() => toggleTestData(!testDataToggle) && toggleEvolutionary(!evoToggle)}
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                  Real Data
+                </h4>
                 <h4>
                   <label class="switch">
                     <input
@@ -496,7 +522,7 @@ const MelodyGenerator = ({
                     <span class="slider round"></span>
                   </label>
                   Genetic Algorithm Specs
-                </h4>
+                </h4> */}
                 <div className="inputs">{renderEvolutionaryBox()}</div>
               </div>
               <div className="melody-specs reveal-from-right">
