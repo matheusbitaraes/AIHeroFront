@@ -12,6 +12,8 @@
  */
 
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0");
+
 
 importScripts(
   "/precache-manifest.8bab40242323158fb00959adc439e01c.js"

@@ -252,5 +252,29 @@
 .midi-player {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
+  .midi-piano-roll {
+    background: white;
+  }
+  
+  #myPianoRollVisualizer {
+
+    width: 100%;
+    margin-bottom: 50px;
+
+    svg rect.note {
+      fill: white;
+      opacity: 0.8;
+      stroke-width: 2;
+    }
+
+    svg rect.note.active {
+      opacity: 0.6;
+      stroke: #000;
+      stroke-width: 2;
+    }
+  }
+}
+.loading-image{
+  width: 10%;
 }

@@ -4,8 +4,7 @@ import { SectionProps } from "../../utils/SectionProps";
 import Button from "../elements/Button";
 import Image from "../elements/Image";
 import logo from "../../assets/images/load.gif";
-
-import MidiPlayer from "react-midi-player";
+import "html-midi-player";
 
 const propTypes = {
   ...SectionProps.types,
@@ -101,7 +100,7 @@ const MelodyGenerator = ({
   ]);
 
   const [midiData, setMidiData] = useState(null);
-  const [melodyFrom, setMelodyFrom] = useState("gan")
+  const [melodyFrom, setMelodyFrom] = useState("gan");
   const [noteVariety, setNoteVariety] = useState(0);
   const [chaosValue, setChaosValue] = useState(0);
 
@@ -215,8 +214,8 @@ const MelodyGenerator = ({
 
   function renderEvolutionarySpec(spec) {
     return (
-      <div className="evo-fitness-functions">
-        <h7>{`${spec.name}: ${spec.weight.toFixed(1)}`}</h7>
+      <div key={spec.name} className="evo-fitness-functions">
+        <div key={spec.name}>{`${spec.name}: ${spec.weight.toFixed(1)}`}</div>
         {/* <input
           disabled={!evoToggle}
           className="evo-spec-range"
@@ -303,8 +302,8 @@ const MelodyGenerator = ({
 
   function renderMelodySpec(spec, i) {
     return (
-      <div className="melody-spec-box">
-        <h6>Bar {i+1}</h6>
+      <div key={i} id={i} className="melody-spec-box">
+        <h6>Bar {i + 1}</h6>
         <div className="evo-spec-chord">
           Chord: {"  "}
           <select
@@ -379,9 +378,18 @@ const MelodyGenerator = ({
     return (
       <div className="midi-player">
         <h4>Here is Your Melody!</h4>
-        <MidiPlayer src={objectURL} />
+        <midi-player
+          src={objectURL}
+          sound-font="https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus"
+          visualizer="#myPianoRollVisualizer"
+        ></midi-player>
+        <midi-visualizer
+          id="myPianoRollVisualizer"
+          type="piano-roll"
+          src={objectURL}
+        ></midi-visualizer>
         <Button
-          class="btn"
+          className="btn"
           tag="a"
           color="dark"
           wideMobile
@@ -398,7 +406,7 @@ const MelodyGenerator = ({
     return (
       <div className="player-loading">
         <h6>Working on your melody. It can take some minutes...</h6>
-        <Image src={logo} alt="loading..." width="15%" />
+        <Image className="loading-image" src={logo} alt="loading..." />
       </div>
     );
   }
@@ -492,37 +500,41 @@ const MelodyGenerator = ({
             <div className="melody-input">
               <div className="evolutionary-specs reveal-from-left">
                 <h4>Get Melodies From</h4>
-                <div className="radio-inputs" onChange={(event) => setMelodyFrom(event.target.value)}>
-                  <h6 className="radio-input" ><input type="radio" value="train" name="melody-from" checked={melodyFrom === "train"}/> Real Data</h6>
-                  <h6 className="radio-input" ><input type="radio" value="gan" name="melody-from" checked={melodyFrom === "gan"}/> Gan Generated</h6>
-                  <h6 className="radio-input" ><input type="radio" value="evo" name="melody-from" checked={melodyFrom === "evo"}/> Gan + Evo Generated</h6>
+                <div
+                  className="radio-inputs"
+                  onChange={(event) => setMelodyFrom(event.target.value)}
+                >
+                  <h6 className="radio-input">
+                    <input
+                      type="radio"
+                      value="train"
+                      name="melody-from"
+                      onChange={() => {}}
+                      checked={melodyFrom === "train"}
+                    />{" "}
+                    Real Data
+                  </h6>
+                  <h6 className="radio-input">
+                    <input
+                      type="radio"
+                      value="gan"
+                      name="melody-from"
+                      onChange={() => {}}
+                      checked={melodyFrom === "gan"}
+                    />{" "}
+                    Gan Generated
+                  </h6>
+                  <h6 className="radio-input">
+                    <input
+                      type="radio"
+                      value="evo"
+                      name="melody-from"
+                      onChange={() => {}}
+                      checked={melodyFrom === "evo"}
+                    />{" "}
+                    Gan + Evo Generated
+                  </h6>
                 </div>
-                {/* <h4>
-                  <label class="switch">
-                    <input
-                      type="checkbox"
-                      alt="Enable evolutionary optimization"
-                      id="test-data-toggle"
-                      checked={testDataToggle}
-                      onChange={() => toggleTestData(!testDataToggle) && toggleEvolutionary(!evoToggle)}
-                    />
-                    <span class="slider round"></span>
-                  </label>
-                  Real Data
-                </h4>
-                <h4>
-                  <label class="switch">
-                    <input
-                      type="checkbox"
-                      alt="Enable evolutionary optimization"
-                      id="evo-toggle"
-                      checked={evoToggle}
-                      onChange={() => toggleEvolutionary(!evoToggle)}
-                    />
-                    <span class="slider round"></span>
-                  </label>
-                  Genetic Algorithm Specs
-                </h4> */}
                 <div className="inputs">{renderEvolutionaryBox()}</div>
               </div>
               <div className="melody-specs reveal-from-right">
