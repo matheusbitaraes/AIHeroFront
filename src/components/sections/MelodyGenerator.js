@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { SectionProps } from "../../utils/SectionProps";
 import Button from "../elements/Button";
@@ -370,6 +370,16 @@ const MelodyGenerator = ({
     );
   }
 
+
+
+  const midiVisualizer = useRef(null);
+
+  useEffect(() => {
+    if (midiVisualizer.current) {
+      midiVisualizer.current.scrollIntoView({ behavior: "smooth", block: "start"});
+    }
+  }, [midiData]);
+
   function renderMelodyPlayer() {
     if (!midiData) return;
 
@@ -387,6 +397,7 @@ const MelodyGenerator = ({
           id="myPianoRollVisualizer"
           type="piano-roll"
           src={objectURL}
+          ref={midiVisualizer}
         ></midi-visualizer>
         <Button
           className="btn"

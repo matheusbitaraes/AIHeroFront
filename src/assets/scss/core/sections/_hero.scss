@@ -260,7 +260,16 @@
   #myPianoRollVisualizer {
 
     width: 100%;
-    margin-bottom: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px;   
+    border-radius: 30px;
+    transition: box-shadow .15s ease-in-out; 
+    box-shadow: .3px .3px 12px 0px white;
+
+    &:hover {
+      box-shadow: 1px 1px 24px 0px white;
+    }
+
 
     svg rect.note {
       fill: white;
