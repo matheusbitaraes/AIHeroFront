@@ -180,6 +180,8 @@ const MelodyGenerator = ({
     }
   });
 
+  const specInput = useRef(null);
+
   function updateEvolutionaryFunctions(variety, chaos) {
     evolutionarySpecs.map((spec) => {
       let specs = evolutionarySpecs;
@@ -194,15 +196,20 @@ const MelodyGenerator = ({
       );
 
       setEvolutionarySpecs([...specs]);
+
+      //clean inputs of textbox
+      const inputs = specInput.current.querySelectorAll('.evo-spec-input')
+      inputs.forEach(input => input.value = "")
       return null;
     });
   }
 
-  // function handleEvolutionarySpecs(key, value) {
-  //   let specs = evolutionarySpecs;
-  //   specs.filter((s) => s.key === key)[0].value = value;
-  //   setEvolutionarySpecs([...specs]);
-  // }
+  function handleEvolutionarySpecs(key, value) {
+    console.log(key, value)
+    let specs = evolutionarySpecs;
+    specs.filter((s) => s.key === key)[0].weight = parseFloat(value);
+    setEvolutionarySpecs([...specs]);
+  }
 
   function handleMelodySpecChange(fieldName, idx, value) {
     let specs = harmonySpecs;
@@ -214,20 +221,19 @@ const MelodyGenerator = ({
 
   function renderEvolutionarySpec(spec) {
     return (
-      <div key={spec.name} className="evo-fitness-functions">
-        <div key={spec.name}>{`${spec.name}: ${spec.weight.toFixed(1)}`}</div>
-        {/* <input
-          disabled={!evoToggle}
-          className="evo-spec-range"
-          type="range"
-          name={spec.name}
-          value={spec.value}
-          onChange={(e) => {
-            handleEvolutionarySpecs(spec.key, e.target.value);
-          }}
-          min={-10}
-          max={10}
-        ></input> */}
+      <div className="evo-fitness-functions">
+        <div>{`${spec.name}: `}
+        </div>
+        <input
+            className="evo-spec-input"
+            key={spec.name}
+            type="text"
+            name={spec.name}
+            placeholder={spec.weight.toFixed(1)}
+            onChange={(e) => {
+              handleEvolutionarySpecs(spec.key, e.target.value)
+            }}
+        />
       </div>
     );
   }
@@ -293,7 +299,7 @@ const MelodyGenerator = ({
 
   function renderFitnessFunctionSpecs() {
     return (
-      <div className="fitness-function-box">
+      <div className="fitness-function-box" ref={specInput}>
         {/* <h6>Fitness Function Values</h6> */}
         {evolutionarySpecs.map((spec) => renderEvolutionarySpec(spec))}
       </div>
@@ -427,6 +433,7 @@ const MelodyGenerator = ({
   }
 
   function requestMelody() {
+    console.log(evolutionarySpecs)
     setMelodyLoaded(false);
     setMelodyId(null);
     const requestOptions = {

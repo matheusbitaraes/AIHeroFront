@@ -89,9 +89,19 @@
     .evolutionary-box {
       height: 60%;
       width: 100%;
-      // margin-left: 10%;
       .spec-box {
         display: flex;
+        .evo-fitness-functions{
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          .evo-spec-input {
+            background: color-bg(body);
+            color: #9CA9B3;
+            border: none;
+            width: 30px
+          }
+        }
       }
     }
     #widget {
