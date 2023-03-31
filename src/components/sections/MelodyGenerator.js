@@ -24,6 +24,7 @@ const MelodyGenerator = ({
   invertColor,
   ...props
 }) => {
+
   const [harmonySpecs, setHarmonySpecs] = useState([
     {
       melodic_part: "",
@@ -432,8 +433,12 @@ const MelodyGenerator = ({
     return isMelodyLoaded ? renderMelodyPlayer() : renderLoadingMelody();
   }
 
+  const HOST = 'aihero-ai-hero-server-1'
+  const PORT = '8083'
+  const url =  `http://${HOST}:${PORT}`
+
+
   function requestMelody() {
-    console.log(evolutionarySpecs)
     setMelodyLoaded(false);
     setMelodyId(null);
     const requestOptions = {
@@ -449,7 +454,7 @@ const MelodyGenerator = ({
       }),
     };
 
-    fetch(`http://localhost:8083/melody?source=${melodyFrom}`, requestOptions)
+    fetch(`${url}/melody?source=${melodyFrom}`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -480,11 +485,9 @@ const MelodyGenerator = ({
       });
     }
 
-    const url = `http://localhost:8083/melody/${melodyId}`;
-
     await wait(5000);
 
-    fetch(url, requestOptions)
+    fetch(`${url}/melody/${melodyId}`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
