@@ -81,7 +81,7 @@ const Hero = ({
           <div className="hero-figure reveal-from-bottom illustration-element-01" data-reveal-value="20px" data-reveal-delay="800">
             <Image 
             className="animated-gif" 
-            src={require('./../../assets/images/gan_training.gif')}
+            src={require('../../assets/images/gan_training.gif')}
             alt="Training of Neural Model"
             width={896}
             height={504}

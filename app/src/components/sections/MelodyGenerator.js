@@ -4,7 +4,7 @@ import { SectionProps } from "../../utils/SectionProps";
 import Button from "../elements/Button";
 import Image from "../elements/Image";
 import logo from "../../assets/images/load.gif";
-import "html-midi-player";
+import {pollForMelodyService, requestMelodyService} from '../services/melodyService'
 
 const propTypes = {
   ...SectionProps.types,
@@ -390,20 +390,20 @@ const MelodyGenerator = ({
   function renderMelodyPlayer() {
     if (!midiData) return;
 
-    var objectURL = URL.createObjectURL(midiData);
+    const midiObjectURL = URL.createObjectURL(midiData);
 
     return (
       <div className="midi-player">
         <h4>Here is Your Melody!</h4>
         <midi-player
-          src={objectURL}
+          src={midiObjectURL}
           sound-font="https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus"
           visualizer="#myPianoRollVisualizer"
         ></midi-player>
         <midi-visualizer
           id="myPianoRollVisualizer"
           type="piano-roll"
-          src={objectURL}
+          src={midiObjectURL}
           ref={midiVisualizer}
         ></midi-visualizer>
         <Button
@@ -411,7 +411,7 @@ const MelodyGenerator = ({
           tag="a"
           color="dark"
           wideMobile
-          href={objectURL}
+          href={midiObjectURL}
           download="a-robot-did-this.mid"
         >
           Download
@@ -433,49 +433,16 @@ const MelodyGenerator = ({
     return isMelodyLoaded ? renderMelodyPlayer() : renderLoadingMelody();
   }
 
-  const HOST = 'aihero-ai-hero-server-1'
-  const PORT = '8083'
-  const url =  `http://${HOST}:${PORT}`
 
-
-  function requestMelody() {
+  async function requestMelody() {
     setMelodyLoaded(false);
     setMelodyId(null);
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Access-Control-Allow-Credentials": "true",
-      },
-      body: JSON.stringify({
-        harmony_specs: harmonySpecs,
-        evolutionary_specs: evolutionarySpecs,
-      }),
-    };
-
-    fetch(`${url}/melody?source=${melodyFrom}`, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => setMelodyId(data["melody_id"]))
-      .catch((err) => console.log(err));
+    const {melodyId} = await requestMelodyService({harmonySpecs, evolutionarySpecs, melodyFrom})
+    setMelodyId(melodyId)
   }
 
   async function pollForMelody() {
     if (isMelodyLoaded) return;
-
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    };
 
     function wait(milliseconds) {
       return new Promise((resolve) => {
@@ -485,26 +452,21 @@ const MelodyGenerator = ({
       });
     }
 
-    await wait(5000);
+    await wait(3000);
 
-    fetch(`${url}/melody/${melodyId}`, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response.blob();
-      })
-      .then((data) => {
-        setMelodyLoaded(true);
-        console.log(`MIDI data acquired for melody ${melodyId}`);
-        setMidiData(data);
-      })
-      .catch((err) => {
-        setCounter(counter + 1);
-        console.log(
-          `still waiting melody. tried ${counter} times for melody ${melodyId}`
-        );
-      });
+
+    const data = await pollForMelodyService({melodyId})
+
+    if (data) {
+      setMelodyLoaded(true);
+      setMidiData(data);
+      console.log(`MIDI data acquired for melody ${melodyId}`);
+    } else {
+      setCounter(counter + 1);
+      console.log(
+        `still waiting melody. tried ${counter} times for melody ${melodyId}`
+      );
+    }
   }
 
   return (
