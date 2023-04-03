@@ -2,7 +2,9 @@ FROM node:16-alpine as builder
 # Set the working directory to /app inside the container
 WORKDIR /app
 # Copy app files
-COPY . /app
+COPY package.json ./
+COPY package-lock.json ./
+COPY ./ ./
 # Install dependencies (npm ci makes sure the exact versions in the lockfile gets installed)
 RUN npm ci 
 # Build the app
@@ -17,5 +19,6 @@ COPY --from=builder /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose port
 EXPOSE 80
+
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    environment:
+      - ENV=prod
+    ports:
+      - 5000:5000
+
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    environment:
+      - ENV=prod
+    ports:
+      - 3000:80

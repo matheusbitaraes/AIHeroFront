@@ -4,7 +4,8 @@ import { SectionProps } from "../../utils/SectionProps";
 import Button from "../elements/Button";
 import Image from "../elements/Image";
 import logo from "../../assets/images/load.gif";
-import {pollForMelodyService, requestMelodyService} from '../services/melodyService'
+import requestMelodyService from '../services/requestMelodyService';
+import pollForMelodyService from '../services/pollForMelodyService';
 
 const propTypes = {
   ...SectionProps.types,
