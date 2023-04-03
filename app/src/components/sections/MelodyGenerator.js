@@ -206,7 +206,6 @@ const MelodyGenerator = ({
   }
 
   function handleEvolutionarySpecs(key, value) {
-    console.log(key, value)
     let specs = evolutionarySpecs;
     specs.filter((s) => s.key === key)[0].weight = parseFloat(value);
     setEvolutionarySpecs([...specs]);

@@ -1,0 +1,10 @@
+{
+    "local": {
+        "dns": "http://localhost",
+        "port": 8083
+    },
+    "prod": {
+        "dns": "http://ai-hero-service",
+        "port": 8083
+    }
+}

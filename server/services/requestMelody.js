@@ -1,15 +1,14 @@
 const axios = require('axios')
+const config = require('../config')
+
+const {dns, port} = config.aiherogenerator
 
 const requestMelody = async (req, res) => {
     const { params } = req
     const { id } = params
 
-    const endpoint = 'http://localhost:8083' // 'http://ai-hero-service:8083'
-
-    const url = `${endpoint}/melody/${id}`
-
     try {
-        const response = await axios.get(url, {
+        const response = await axios.get(`${dns}:${port}/melody/${id}`, {
         responseType: "arraybuffer",
       })
     

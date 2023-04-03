@@ -1,7 +1,8 @@
+const config = require('../../config')
 
-const HOST = 'localhost'
-const PORT = '5000'
-const url =  `http://${HOST}:${PORT}`
+const {host, port} = config.server
+
+const url =  `${host}:${port}`
 
 
 const requestMelodyService = async ({harmonySpecs, evolutionarySpecs, melodyFrom}) => {
