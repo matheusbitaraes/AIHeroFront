@@ -71,7 +71,7 @@ const Hero = ({
                   <Button tag="a" color="primary" wideMobile href="/demo" disabled={false}>
                     Live Demo
                     </Button>
-                  <Button tag="a" color="dark" wideMobile href="https://github.com/matheusbitaraes/AIHero">
+                  <Button tag="a" color="dark" wideMobile href="https://github.com/matheusbitaraes/AIHero" target='_blank'>
                     View on Github
                     </Button>
                 </ButtonGroup>

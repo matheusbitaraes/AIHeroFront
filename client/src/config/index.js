@@ -1,8 +1,12 @@
-const env = process.env.ENV || 'local';
-const server = require('./server.json')
-const config = {
-    env,
-    server
-}
+const env = process.env.NODE_ENV === "production" ? "prod" : "local";
 
-module.exports = config
+const server = require("./server.json")[env];
+
+console.log(env);
+console.log(server);
+const config = {
+   env,
+  server,
+};
+
+module.exports = config;

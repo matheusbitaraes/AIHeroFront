@@ -1,4 +1,11 @@
 {
-    "port": 5000,
-    "host": "http://localhost"
+    "local": {
+        "port": 5000,
+        "host": "http://localhost"
+    },
+    "prod": {
+        "port": 5000,
+        "host": "http://ec2-54-232-12-8.sa-east-1.compute.amazonaws.com"
+    }
+
 }

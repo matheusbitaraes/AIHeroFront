@@ -15,6 +15,8 @@ const defaultProps = {
   ...SectionProps.defaults,
 };
 
+const MELODY_REQUEST_ENABLED = false
+
 const MelodyGenerator = ({
   className,
   topOuterDivider,
@@ -433,6 +435,30 @@ const MelodyGenerator = ({
     return isMelodyLoaded ? renderMelodyPlayer() : renderLoadingMelody();
   }
 
+  function renderMelodyButton(){
+    return MELODY_REQUEST_ENABLED ? <Button
+              tag="a"
+              color="primary"
+              wideMobile
+              onClick={() => requestMelody()}
+            >
+              Request Melody
+            </Button>
+            : 
+            <div>
+            <Button
+            tag="a"
+            color="primary"
+            wideMobile
+            onClick={() => requestMelody()}
+            disabled={true}
+          >
+            Request Melody
+          </Button>
+          <p style={{'margin-top': '15px'}}>Melody generator is not enabled for cost saving purposes</p>
+          </div>
+  }
+
 
   async function requestMelody() {
     setMelodyLoaded(false);
@@ -527,14 +553,7 @@ const MelodyGenerator = ({
                 </div>
               </div>
             </div>
-            <Button
-              tag="a"
-              color="primary"
-              wideMobile
-              onClick={() => requestMelody()}
-            >
-              Request Melody
-            </Button>
+            {renderMelodyButton()}
             {melodyId != null && renderMelodyBox()}
           </div>
           <div
@@ -548,7 +567,6 @@ const MelodyGenerator = ({
   );
 };
 
-MelodyGenerator.propTypes = propTypes;
 MelodyGenerator.defaultProps = defaultProps;
 
 export default MelodyGenerator;

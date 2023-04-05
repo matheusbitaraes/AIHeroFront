@@ -1,8 +1,8 @@
-const env = process.env.ENV || 'local';
-const aiherogenerator = require('./env/aiherogenerator.json')[env]
+const env = process.env.ENV || "local";
+const aiherogenerator = require("./env/aiherogenerator.json")[env];
 const config = {
-    env,
-    aiherogenerator,
-}
+  env,
+  aiherogenerator,
+};
 
-module.exports = config
+module.exports = config;
