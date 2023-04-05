@@ -7,10 +7,6 @@ import logo from "../../assets/images/load.gif";
 import requestMelodyService from '../services/requestMelodyService';
 import pollForMelodyService from '../services/pollForMelodyService';
 
-const propTypes = {
-  ...SectionProps.types,
-};
-
 const defaultProps = {
   ...SectionProps.defaults,
 };
