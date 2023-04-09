@@ -74,6 +74,9 @@ const Hero = ({
                   <Button tag="a" color="dark" wideMobile href="https://github.com/matheusbitaraes/AIHero" target='_blank'>
                     View on Github
                     </Button>
+                  <Button tag="a" color="light" wideMobile href="/evidences" disabled={false}>
+                    Evidences
+                    </Button>
                 </ButtonGroup>
               </div>
             </div>

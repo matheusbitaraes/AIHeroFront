@@ -91,15 +91,15 @@
       width: 100%;
       .spec-box {
         display: flex;
-        .evo-fitness-functions{
+        .evo-fitness-functions {
           display: flex;
           justify-content: space-between;
           gap: 10px;
           .evo-spec-input {
             background: color-bg(body);
-            color: #9CA9B3;
+            color: #9ca9b3;
             border: none;
-            width: 30px
+            width: 30px;
           }
         }
       }
@@ -187,7 +187,7 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-around;
-      >h6 {
+      > h6 {
         margin-top: 5px;
         margin-bottom: 5px;
       }
@@ -262,24 +262,22 @@
 .midi-player {
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   .midi-piano-roll {
     background: white;
   }
-  
-  #myPianoRollVisualizer {
 
+  #myPianoRollVisualizer {
     width: 100%;
     margin-top: 20px;
-    margin-bottom: 50px;   
+    margin-bottom: 50px;
     border-radius: 30px;
-    transition: box-shadow .15s ease-in-out; 
-    box-shadow: .3px .3px 12px 0px white;
+    transition: box-shadow 0.15s ease-in-out;
+    box-shadow: 0.3px 0.3px 12px 0px white;
 
     &:hover {
       box-shadow: 1px 1px 24px 0px white;
     }
-
 
     svg rect.note {
       fill: white;
@@ -294,6 +292,20 @@
     }
   }
 }
-.loading-image{
+.loading-image {
   width: 10%;
+}
+
+.melody-carousel {
+  margin-bottom: 80px;
+}
+
+.melody-slide-box {
+  margin: 10px 60px 30px 60px;
+  .button {
+    height: unset;
+  }
+  h4 {
+    display: none;
+  }
 }

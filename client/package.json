@@ -11,7 +11,8 @@
     "react-ga": "^2.7.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^5.0.1",
-    "sass": "^1.60.0"
+    "sass": "^1.60.0",
+    "swiper": "^9.2.0"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-    
   },
   "proxy": "http://localhost:3000/"
 }
