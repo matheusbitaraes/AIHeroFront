@@ -17,7 +17,7 @@ const defaultProps = {
   ...SectionProps.defaults,
 };
 
-const MELODY_REQUEST_ENABLED = true;
+const MELODY_REQUEST_ENABLED = false;
 
 const MelodyGenerator = ({
   className,
@@ -72,7 +72,7 @@ const MelodyGenerator = ({
   }
 
   function renderMelodyBox() {
-    return isMelodyLoaded ? <MelodyOutput midiData={midiData}/> : renderLoadingMelody();
+    return isMelodyLoaded && midiData ? <MelodyOutput midiData={midiData}/> : renderLoadingMelody();
   }
 
   function renderMelodyButton() {

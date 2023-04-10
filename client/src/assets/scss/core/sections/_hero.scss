@@ -309,3 +309,14 @@
     display: none;
   }
 }
+
+.evolutionary-specs-label-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 14px;
+  margin: auto;
+  width: 500px;
+  margin-bottom: 20px;
+}

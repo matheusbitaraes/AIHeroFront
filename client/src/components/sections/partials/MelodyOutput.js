@@ -14,8 +14,6 @@ const MelodyOutput = ({
 
   const midiVisualizer = useRef(null);
 
-  console.log(midiData)
-
   useEffect(() => {
     if (midiVisualizer.current && scrollIntoView) {
       midiVisualizer.current.scrollIntoView({
@@ -25,12 +23,10 @@ const MelodyOutput = ({
     }
   }, [midiData]);
 
-  if (!midiData) return;
-
   const midiObjectURL = URL.createObjectURL(midiData);
 
   return (
-    <div className="midi-player">
+    <div className="midi-player" key={Math.random()}>
       <h4>{headerText || 'Here is Your Melody!'}</h4>
       <midi-player
         src={midiObjectURL}

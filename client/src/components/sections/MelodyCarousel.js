@@ -12,7 +12,7 @@ const defaultProps = {
   ...SectionProps.defaults,
 };
 
-const MelodyCarousel = ({ midiFiles, headerText }) => {
+const MelodyCarousel = ({ midiFiles, evoSpecs, headerText }) => {
   const [midiData, setMidiData] = useState(null);
 
   useEffect(() => {
@@ -25,11 +25,26 @@ const MelodyCarousel = ({ midiFiles, headerText }) => {
       setMidiData(loadedMidis);
     };
     fetchMidi();
-  },[]);
+  }, [midiFiles]);
 
-  useEffect(() => {
-    console.log(midiData);
-  }, [midiData]);
+  function renderEvoSpecs(i) {
+    const spec = evoSpecs[i];
+
+    return (
+      <>
+        <label>
+          <b>Evolutionary function weights:</b>
+        </label>
+        <div className="evolutionary-specs-label-group">
+          {spec.map((s) => (
+            <label key={s.name + s.weight}>
+              {s.name}: <b>{s.weight}</b>
+            </label>
+          ))}
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="melody-carousel">
@@ -38,13 +53,10 @@ const MelodyCarousel = ({ midiFiles, headerText }) => {
         <Swiper navigation={true} modules={[Navigation]}>
           {midiData.map((midi, i) => {
             return (
-              <SwiperSlide key={midi}>
+              <SwiperSlide key={i}>
                 <div className="melody-slide-box">
-                  <MelodyOutput
-                    key={midi}
-                    scrollIntoView={false}
-                    midiData={midi}
-                  />
+                  {evoSpecs && renderEvoSpecs(i)}
+                  <MelodyOutput scrollIntoView={false} midiData={midi} />
                 </div>
               </SwiperSlide>
             );
