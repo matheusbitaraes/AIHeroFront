@@ -21,7 +21,7 @@ const MelodyOutput = ({
         block: "start",
       });
     }
-  }, [midiData]);
+  }, [midiData, scrollIntoView]);
 
   const midiObjectURL = URL.createObjectURL(midiData);
 
