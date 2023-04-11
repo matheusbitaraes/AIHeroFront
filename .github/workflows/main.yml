@@ -2,7 +2,7 @@
 
 name: Build and Deploy on website Cpanel (via ftp)
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   push:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -25,25 +25,27 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm install
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        working-directory: ./client
+        run: npm run build
 
-    - name: 📂 Sync files in website Cpanel via FTP
-      uses: SamKirkland/FTP-Deploy-Action@4.0.0
-      with:
-        server: ftp.bitaraes.com.br
-        username: u827606196.github
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: actions/build/
-        server-dir: ai_hero/
+      - name: 📂 Sync files in website Cpanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ftp.bitaraes.com.br
+          username: u827606196.github
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: actions/build/
+          server-dir: /public_html/ai_hero/
