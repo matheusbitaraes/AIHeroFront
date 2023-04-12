@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  {useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
@@ -24,17 +24,20 @@ const Hero = ({
   ...props
 }) => {
 
-  // const [videoModalActive, setVideomodalactive] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640)
 
-  // const openModal = (e) => {
-  //   e.preventDefault();
-  //   setVideomodalactive(true);
-  // }
-
-  // const closeModal = (e) => {
-  //   e.preventDefault();
-  //   setVideomodalactive(false);
-  // }   
+  // create an event listener
+  useEffect(() => {
+    //choose the screen size 
+    const handleResize = () => {
+      if (window.innerWidth < 640) { //640px is the css 'medium' value
+          setIsMobile(true)
+      } else {
+          setIsMobile(false)
+      }
+    }
+    window.addEventListener("resize", handleResize)
+  })
 
   const outerClasses = classNames(
     'hero section center-content',
@@ -50,6 +53,8 @@ const Hero = ({
     topDivider && 'has-top-divider',
     bottomDivider && 'has-bottom-divider'
   );
+
+  const evidencesTag = isMobile ? 'Evidences (desktop only)' : 'Evidences'
 
   return (
     <section
@@ -74,8 +79,8 @@ const Hero = ({
                   <Button tag="a" color="dark" wideMobile href="https://github.com/matheusbitaraes/AIHero" target='_blank'>
                     View on Github
                     </Button>
-                  <Button tag="a" color="light" wideMobile href="/evidences" disabled={false}>
-                    Evidences
+                  <Button tag="a" color="light" wideMobile href="/evidences" disabled={isMobile}>
+                    {evidencesTag}
                     </Button>
                 </ButtonGroup>
               </div>
